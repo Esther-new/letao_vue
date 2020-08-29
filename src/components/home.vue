@@ -36,21 +36,40 @@
         <img src="../assets/images/menu18.png" alt />
         <div>美图欣赏</div>
       </van-grid-item>
-      <van-grid-item icon="photo-o" text="文字">
+      <van-grid-item to="/newslist/100" icon="photo-o" text="文字">
         <img src="../assets/images/menu19.png" alt />
         <div>乐淘头条</div>
       </van-grid-item>
     </van-grid>
+
+    <van-divider :style="{ color: '#333', borderColor: '#545e6c', padding: '0 16px' }">为你推荐</van-divider>
+    <div class="recommend">   
+      <div class="goodlists" v-for="item in goolists" :key="item.id">
+          <!-- 给图片放一个div防止等下图片跟文字没有实现弹性布局 -->
+        <div class="item">
+            <!-- 将v-lazy指令的值设置为你需要懒加载的图片（代替原本动态获取的:src） -->
+          <img v-lazy="item.img_url" alt />
+          </div>
+          <div class="text">
+            <div class="title">{{item.title}}</div>
+            <div class="footer">
+              <span class="price">&yen;&nbsp;{{item.sell_price}}</span>
+              <span class="buy">{{item.buy}}已购买</span>
+            </div>
+          </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { Swipe, SwipeItem, Grid, GridItem } from "vant";
-import { getLunboTu } from "../api/index.js";
+import { Swipe, SwipeItem, Grid, GridItem, Divider } from "vant";
+import { getLunboTu, getGoodLists } from "../api/index.js";
 export default {
   data() {
     return {
       lunbo: [],
+      goolists: [],
     };
   },
   components: {
@@ -58,13 +77,20 @@ export default {
     "van-swipe-item": SwipeItem,
     "van-grid": Grid,
     "van-grid-item": GridItem,
+    "van-divider": Divider,
   },
   methods: {
     // 获取轮播图数据
     async getLunbo() {
-      console.log(1);
       var res = await getLunboTu();
       this.lunbo = res.message;
+    },
+    async getGoodListData() {
+        // 解构赋值，拿到响应数据里的message，直接获取message
+      var { message } = await getGoodLists();
+      // console.log(res);
+      this.goolists = message;
+      console.log(this.goolists);
     },
   },
   created() {
@@ -72,6 +98,7 @@ export default {
     // 这个可以调用轮播图的数据
     // 这个是等实例化vm然后执行。
     this.getLunbo();
+    this.getGoodListData();
   },
 };
 </script>
@@ -90,6 +117,53 @@ export default {
     // width:39px;
     // height:39px;
     width: 50%;
+  }
+}
+.van-divider {
+  background-color: #eeeeee;
+}
+.recommend {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 10px;
+//  拉到底部不会被tabbar挡住内容
+  margin-bottom: 60px;
+  .goodlists {
+    display: flex;
+    width: 45%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0px 4px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: #fff;
+    overflow: hidden;
+    img {
+      width: 100%;
+    }
+    .text {
+        display: flex;
+        flex-direction: column;
+      .title {
+        font-size: 12px;
+        color: #333;
+      }
+      .footer {
+        display: flex;
+        align-items: center;
+        .price {
+          font-size: 14px;
+          color: #f50;
+          padding: 10px 0;
+        }
+        .buy {
+          font-size: 12px;
+          color: #999;
+          margin-left: 10px;
+        }
+      }
+    }
   }
 }
 </style>

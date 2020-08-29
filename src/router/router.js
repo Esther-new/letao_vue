@@ -6,13 +6,15 @@ Vue.use(VueRouter);
 import home from "@/components/home.vue";
 import cart from "@/components/cart.vue";
 import user from "@/components/user.vue";
+import newslist from "@/components/news/newslist.vue";
 // 实例化路由对象，写路由匹配规则
 const router = new VueRouter({
     routes: [
         { path: "/", component: home },
         { path: "/home", component: home },
         { path: "/cart", component: cart },
-        { path: "/user", component: user }
+        { path: "/user/:user_id", component: user },
+        { path: "/newslist/:id", component: newslist }
     ]
 
 })
