@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router.js'
 import { Lazyload } from 'vant';
+// 引入js文件不需要对象
+import '@/util/filter.js';
 
 Vue.use(Lazyload);
 

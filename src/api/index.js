@@ -14,3 +14,7 @@ export async function getLunboTu(){
 export async function getGoodLists(limit = 10){
     return await instance.get(`/recommend?limit=${limit}`)
 }
+
+export async function getNewListData(page=1,pageSize=10){
+    return await instance.get(`/getnewslist?page=${page}&pageSize=${pageSize}`)
+}

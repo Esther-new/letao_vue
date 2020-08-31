@@ -36,7 +36,7 @@
         <img src="../assets/images/menu18.png" alt />
         <div>美图欣赏</div>
       </van-grid-item>
-      <van-grid-item to="/newslist/100" icon="photo-o" text="文字">
+      <van-grid-item to="/newslist" icon="photo-o" text="文字">
         <img src="../assets/images/menu19.png" alt />
         <div>乐淘头条</div>
       </van-grid-item>
@@ -99,6 +99,8 @@ export default {
     // 这个是等实例化vm然后执行。
     this.getLunbo();
     this.getGoodListData();
+    this.$parent.showHeader();
+    this.$parent.hideNavBar();
   },
 };
 </script>
